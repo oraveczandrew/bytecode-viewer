@@ -1,6 +1,7 @@
 package the.bytecode.club.bytecodeviewer.resources.classcontainer;
 
-import com.github.javaparser.*;
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParseResult;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.resolution.TypeSolver;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
@@ -12,7 +13,6 @@ import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.locations.*;
 import the.bytecode.club.bytecodeviewer.resources.classcontainer.parser.visitors.MyVoidVisitor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableMap;
@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class ClassFileContainer
 {
+    private static final String CLASS_EXT = ".class";
+
     public transient NavigableMap<String, ArrayList<ClassFieldLocation>> fieldMembers = new TreeMap<>();
     public transient NavigableMap<String, ArrayList<ClassParameterLocation>> methodParameterMembers = new TreeMap<>();
     public transient NavigableMap<String, ArrayList<ClassLocalVariableLocation>> methodLocalMembers = new TreeMap<>();
@@ -95,10 +97,24 @@ public class ClassFileContainer
 
     public String getName()
     {
-        if (this.className.contains("/"))
-            return this.className.substring(this.className.lastIndexOf('/') + 1, this.className.lastIndexOf('.'));
+        int lastIndexOfSlash = this.className.lastIndexOf('/');
+        if (lastIndexOfSlash >= 0)
+        {
+            int classNameStart = lastIndexOfSlash + 1;
+            int extensionStart = this.className.indexOf(CLASS_EXT, classNameStart);
+            if (extensionStart < 0) {
+                throw new RuntimeException("Class not found: " + this.className);
+            }
+            return this.className.substring(classNameStart, extensionStart + CLASS_EXT.length());
+        }
         else
-            return this.className.substring(0, this.className.lastIndexOf('.'));
+        {
+            int extensionStart = this.className.indexOf(CLASS_EXT);
+            if (extensionStart < 0) {
+                throw new RuntimeException("Class not found: " + this.className);
+            }
+            return this.className.substring(0, extensionStart + CLASS_EXT.length());
+        }
     }
 
     public String getDecompiler()
