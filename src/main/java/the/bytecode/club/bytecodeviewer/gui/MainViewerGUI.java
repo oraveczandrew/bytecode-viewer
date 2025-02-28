@@ -175,6 +175,7 @@ public class MainViewerGUI extends JFrame
     public final ButtonGroup apkConversionGroup = new ButtonGroup();
     public final JRadioButtonMenuItem apkConversionDex = new JRadioButtonMenuItem("Dex2Jar");
     public final JRadioButtonMenuItem apkConversionEnjarify = new JRadioButtonMenuItem("Enjarify");
+    public final JRadioButtonMenuItem apkConversionKJarify = new JRadioButtonMenuItem("kJarify");
 
     //CFIDE settings
     public final JMenu bytecodeDecompilerSettingsSecondaryMenu = new TranslatedJMenu("Bytecode Decompiler", TranslatedComponents.BYTECODE_DECOMPILER);
@@ -456,8 +457,10 @@ public class MainViewerGUI extends JFrame
         apkConversionSecondaryMenu.add(decodeAPKResources);
         apkConversionSecondaryMenu.add(apkConversionDex);
         apkConversionSecondaryMenu.add(apkConversionEnjarify);
+        apkConversionSecondaryMenu.add(apkConversionKJarify);
         apkConversionGroup.add(apkConversionDex);
         apkConversionGroup.add(apkConversionEnjarify);
+        apkConversionGroup.add(apkConversionKJarify);
         apkConversionGroup.setSelected(apkConversionDex.getModel(), true);
         //apkConversionSettingsDialog = new SettingsDialogue(apkConversionSecondaryMenu, new JPanel());
         apkConversionSettings.addActionListener((e) -> apkConversionSettingsDialog.showDialog());

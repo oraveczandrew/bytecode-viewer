@@ -175,6 +175,8 @@ public class SettingsSerializer
                 DiskWriter.append(SETTINGS_NAME, "0", true);
             else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel()))
                 DiskWriter.append(SETTINGS_NAME, "1", true);
+            else if (BytecodeViewer.viewer.apkConversionGroup.isSelected(BytecodeViewer.viewer.apkConversionKJarify.getModel()))
+                DiskWriter.append(SETTINGS_NAME, "2", true);
 
             save(Configuration.python3);
             save(Configuration.javac);
@@ -376,6 +378,9 @@ public class SettingsSerializer
                     break;
                 case 1:
                     BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionEnjarify.getModel(), true);
+                    break;
+                case 2:
+                    BytecodeViewer.viewer.apkConversionGroup.setSelected(BytecodeViewer.viewer.apkConversionKJarify.getModel(), true);
                     break;
             }
 
