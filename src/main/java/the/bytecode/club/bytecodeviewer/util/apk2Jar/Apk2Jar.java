@@ -54,6 +54,17 @@ public abstract class Apk2Jar
         return new ResourceContainerImporter(new ResourceContainer(output)).importAsFolder().getContainer();
     }
 
+    final protected ResourceContainer createResourceContainerFromMap(Map<String, byte[]> classMap)
+    {
+        File tempFolder = createTempFolder();
+        ResourceContainerImporter resourceContainer = new ResourceContainerImporter(new ResourceContainer(tempFolder));
+        for (Map.Entry<String, byte[]> entry : classMap.entrySet())
+        {
+            resourceContainer.addClassResource(entry.getKey(), entry.getValue());
+        }
+        return resourceContainer.getContainer();
+    }
+
     /**
      * Translates dex classes from an apk to a folder
      *
@@ -95,6 +106,8 @@ public abstract class Apk2Jar
             return new Dex2Jar();
         else if (apkConversionGroup.isSelected(viewer.apkConversionEnjarify.getModel()))
             return new Enjarify();
+        else if (apkConversionGroup.isSelected(viewer.apkConversionKJarify.getModel()))
+            return new kJarify();
 
         throw new RuntimeException("Unknown implementation");
     }

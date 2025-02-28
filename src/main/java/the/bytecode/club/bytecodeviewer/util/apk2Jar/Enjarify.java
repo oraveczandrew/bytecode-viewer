@@ -27,6 +27,7 @@ import the.bytecode.club.bytecodeviewer.util.SleepUtil;
 import the.bytecode.club.bytecodeviewer.util.ZipUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static the.bytecode.club.bytecodeviewer.Constants.enjarifyWorkingDirectory;

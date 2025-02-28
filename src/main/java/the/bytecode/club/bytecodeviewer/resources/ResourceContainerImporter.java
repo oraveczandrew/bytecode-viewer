@@ -150,7 +150,14 @@ public class ResourceContainerImporter
      */
     public ResourceContainerImporter addClassResource(String name, InputStream stream) throws IOException
     {
-        byte[] bytes = MiscUtils.getBytes(stream);
+        return addClassResource(name, MiscUtils.getBytes(stream));
+    }
+
+    /**
+     * Adds a class resource to the container
+     */
+    public ResourceContainerImporter addClassResource(String name, byte[] bytes)
+    {
         if (FileHeaderUtils.doesFileHeaderMatch(bytes, FileHeaderUtils.JAVA_CLASS_FILE_HEADER))
         {
             try
