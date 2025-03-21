@@ -394,7 +394,8 @@ public class MiscUtils
      */
     public static byte[] getBytes(InputStream is) throws IOException
     {
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream())
+        int available = Math.max(32, is.available());
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(available))
         {
             byte[] buffer = new byte[1024];
             int a;
