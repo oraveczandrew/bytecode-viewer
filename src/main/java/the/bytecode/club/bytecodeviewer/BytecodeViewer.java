@@ -203,6 +203,9 @@ public class BytecodeViewer
             //setup swing components
             if(!CLI.isCLI())
             {
+                // Enable native menu bar for macOS
+                System.setProperty("apple.laf.useScreenMenuBar", "true");
+
                 viewer = new MainViewerGUI();
                 //SwingUtilities.updateComponentTreeUI(viewer);
             }
