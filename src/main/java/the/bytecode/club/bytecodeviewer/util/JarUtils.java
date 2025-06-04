@@ -32,6 +32,7 @@ import java.io.*;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.jar.JarOutputStream;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
@@ -230,44 +231,68 @@ public class JarUtils
         return classes;
     }
 
+    private static class LoadedResource {
+        public final String relativePath;
+        public final byte[] bytes;
+
+        public LoadedResource(String relativePath, byte[] bytes)
+        {
+            this.relativePath = relativePath;
+            this.bytes = bytes;
+        }
+    }
+
     /**
      * Loads resources only, just for .APK
      *
      * @param resourcesFolder the input resources folder
-     * @throws IOException
      */
-    public static Map<String, byte[]> loadResourcesFromFolder(String pathPrefix, File resourcesFolder) throws IOException
+    public static Map<String, byte[]> loadResourcesFromFolder(String pathPrefix, File resourcesFolder)
     {
         if (!resourcesFolder.exists())
             return new LinkedHashMap<>(); // just ignore (don't return null for null-safety!)
 
-        Map<String, byte[]> files = new LinkedHashMap<>();
-
+        ArrayList<File> resourceFilesToLoad =  new ArrayList<>();
         String rootPath = resourcesFolder.getAbsolutePath();
-        loadResourcesFromFolderImpl(rootPath, pathPrefix, files, resourcesFolder);
+        collectResourcesToLoadFromFolder(resourceFilesToLoad, resourcesFolder);
+
+        List<LoadedResource> loadedFiles = resourceFilesToLoad.stream().parallel().map(file -> {
+            String relativePath = pathPrefix + file.getAbsolutePath().substring(rootPath.length());
+            try
+            {
+                return new LoadedResource(relativePath, MiscUtils.getBytesFromFile(file));
+            } catch (Exception e)
+            {
+                BytecodeViewer.handleException(e);
+                return null;
+            }
+        }).collect(Collectors.toList());
+
+        Map<String, byte[]> files = new LinkedHashMap<>(loadedFiles.size());
+
+        for (LoadedResource loadedResource : loadedFiles)
+        {
+            if (loadedResource != null)
+            {
+                files.put(loadedResource.relativePath, loadedResource.bytes);
+            }
+        }
 
         return files;
     }
 
-    private static void loadResourcesFromFolderImpl(String rootPath, String pathPrefix, Map<String, byte[]> files, File folder) throws IOException
+    private static void collectResourcesToLoadFromFolder(ArrayList<File> resourceFileToLoad, File folder)
     {
         for (File file : folder.listFiles())
         {
             if (file.isDirectory())
-                loadResourcesFromFolderImpl(rootPath, pathPrefix, files, file);
+                collectResourcesToLoadFromFolder(resourceFileToLoad, file);
             else
             {
                 final String name = file.getName();
                 if (!name.endsWith(".class") && !name.endsWith(".dex"))
                 {
-                    String relativePath = pathPrefix + file.getAbsolutePath().substring(rootPath.length());
-                    try (InputStream in = new FileInputStream(file))
-                    {
-                        files.put(relativePath, MiscUtils.getBytes(in));
-                    } catch (Exception e)
-                    {
-                        BytecodeViewer.handleException(e);
-                    }
+                    resourceFileToLoad.add(file);
                 }
             }
         }

@@ -407,6 +407,13 @@ public class MiscUtils
         }
     }
 
+    public static byte[] getBytesFromFile(File file) throws IOException {
+        try (InputStream in = new FileInputStream(file))
+        {
+            return getBytes(in);
+        }
+    }
+
     public static File[] listFiles(File file)
     {
         if (file == null)
