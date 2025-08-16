@@ -40,7 +40,6 @@ import the.bytecode.club.bytecodeviewer.gui.components.SearchableRSyntaxTextArea
 import the.bytecode.club.bytecodeviewer.gui.resourcelist.ResourceListIconRenderer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ClassViewer;
 import the.bytecode.club.bytecodeviewer.gui.resourceviewer.viewer.ResourceViewer;
-import the.bytecode.club.bytecodeviewer.obfuscators.mapping.Refactorer;
 import the.bytecode.club.bytecodeviewer.plugin.PluginWriter;
 import the.bytecode.club.bytecodeviewer.resources.ResourceContainer;
 import the.bytecode.club.bytecodeviewer.resources.importing.ImportResource;
@@ -140,9 +139,6 @@ public class BytecodeViewer
     //Security Manager for dynamic analysis debugging
     public static SecurityMan sm = new SecurityMan();
 
-    //Refactorer
-    public static Refactorer refactorer = new Refactorer();
-
     //GSON Reference
     public static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -203,7 +199,7 @@ public class BytecodeViewer
             //setup swing components
             if(!CLI.isCLI())
             {
-                // Enable native menu bar for macOS
+                // Enable the native menu bar on macOS
                 System.setProperty("apple.laf.useScreenMenuBar", "true");
 
                 viewer = new MainViewerGUI();
