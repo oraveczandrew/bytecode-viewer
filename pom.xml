@@ -55,7 +55,7 @@
         <taskmanager.version>1.0.1</taskmanager.version>
         <google-java-format.version>1.7</google-java-format.version> <!-- Newer versions require Java 11+ -->
         <disk-lib.version>1.2.0</disk-lib.version>
-        <aapt-version>8.12.0-13700139</aapt-version>
+        <aapt-version>8.13.1-13719691</aapt-version>
         <maven-dependency-plugin>3.6.1</maven-dependency-plugin>
     </properties>
 
@@ -531,7 +531,7 @@
         <dependency>
             <groupId>com.android.tools.build</groupId>
             <artifactId>bundletool</artifactId>
-            <version>1.18.1</version>
+            <version>1.18.3</version>
         </dependency>
 
         <dependency>
