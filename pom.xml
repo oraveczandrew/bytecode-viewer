@@ -683,7 +683,7 @@
                 <executions>
                     <execution>
                         <id>unpack-aapt2-windows</id>
-                        <phase>prepare-package</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -698,11 +698,15 @@
                                     <outputDirectory>${project.build.directory}/unpacked-aapt2/windows</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
+
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
                         </configuration>
                     </execution>
                     <execution>
                         <id>unpack-aapt2-macos</id>
-                        <phase>prepare-package</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -717,11 +721,15 @@
                                     <outputDirectory>${project.build.directory}/unpacked-aapt2/macos</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
+
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
                         </configuration>
                     </execution>
                     <execution>
                         <id>unpack-aapt2-linux</id>
-                        <phase>prepare-package</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>unpack</goal>
                         </goals>
@@ -736,6 +744,10 @@
                                     <outputDirectory>${project.build.directory}/unpacked-aapt2/linux</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
+
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
                         </configuration>
                     </execution>
                 </executions>
@@ -746,7 +758,7 @@
                 <executions>
                     <execution>
                         <id>copy-unpacked-aapt2</id>
-                        <phase>prepare-package</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
