@@ -159,6 +159,9 @@ public class BytecodeViewer
      */
     public static void main(String[] args)
     {
+        // Fixes https://github.com/Konloch/bytecode-viewer/issues/388
+        System.setProperty("sun.java2d.opengl", "true");
+
         launchArgs = args;
 
         //CLI startup banner
